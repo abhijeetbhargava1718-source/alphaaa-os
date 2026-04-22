@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Alphaa.OS — Coming 2026</title>
+<meta name="description" content="The AI that lives on your phone, your PC, and remembers everything. Join the waitlist for 2026."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --gold: #00FFB2;
+    --gold-light: #80FFD8;
+    --gold-dim: rgba(0,255,178,0.12);
+    --bg: #060810;
+    --surface: #0C1220;
+    --border: rgba(0,255,178,0.1);
+    --text: #C8D8F0;
+    --muted: #4A6080;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Instrument Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+    min-height: 100vh;
+  }
+
+  /* Cursor */
+  #cur { position:fixed; width:6px; height:6px; background:var(--gold); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform 0.1s; }
+  #cur-ring { position:fixed; width:28px; height:28px; border:1px solid var(--gold); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); opacity:0.35; transition:all 0.18s ease; }
+
+  /* Grain overlay */
+  body::after {
+    content:'';
+    position:fixed; inset:0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events:none; z-index:1; opacity:0.4;
+  }
+
+  /* Subtle radial glow */
+  .bg-glow {
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0,255,178,0.07) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 80% 80%, rgba(0,102,255,0.06) 0%, transparent 60%);
+  }
+
+  /* Horizontal lines */
+  .h-line {
+    position:absolute; left:0; right:0; height:1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+
+  /* Nav */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:24px 56px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .logo {
+    font-family:'Bebas Neue', sans-serif;
+    font-size:22px; letter-spacing:0.2em;
+    color:var(--gold); text-decoration:none;
+  }
+  .logo span { color:rgba(200,169,110,0.4); }
+  .nav-right {
+    display:flex; align-items:center; gap:24px;
+  }
+  .nav-tag {
+    font-size:10px; letter-spacing:0.18em;
+    color:var(--muted); font-weight:500;
+    text-transform:uppercase;
+  }
+  .nav-dot { width:5px; height:5px; background:var(--gold); border-radius:50%; animation:blink 2.4s ease-in-out infinite; }
+  .nav-cta {
+    font-size:12px; font-weight:700; color:#060810;
+    background:var(--gold); padding:9px 20px;
+    border-radius:8px; text-decoration:none;
+    letter-spacing:0.04em; transition:all 0.2s;
+  }
+  .nav-cta:hover { background:var(--gold-light); }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
+
+  /* Hero */
+  .hero {
+    position:relative; z-index:2;
+    min-height:100vh;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    text-align:center;
+    padding:140px 24px 100px;
+  }
+
+  /* Year badge */
+  .year-badge {
+    display:inline-flex; align-items:center; gap:10px;
+    border:1px solid var(--border);
+    background:rgba(200,169,110,0.05);
+    padding:9px 22px; border-radius:100px;
+    margin-bottom:48px;
+    animation: fadeUp 0.7s ease both;
+  }
+  .year-badge span {
+    font-size:10px; letter-spacing:0.22em; color:var(--gold);
+    font-weight:600; text-transform:uppercase;
+  }
+  .year-sep { width:1px; height:12px; background:var(--border); }
+
+  /* Main title */
+  .title-wrap {
+    animation: fadeUp 0.7s 0.1s ease both;
+    position:relative;
+  }
+  h1 {
+    font-family:'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 14vw, 180px);
+    line-height:0.88;
+    letter-spacing:0.06em;
+    color:#fff;
+    position:relative;
+  }
+  h1 .a-gold { color:var(--gold); }
+  h1 .ghost {
+    -webkit-text-stroke:1px rgba(200,169,110,0.25);
+    color:transparent;
+  }
+  .title-serif {
+    font-family:'Instrument Serif', serif;
+    font-style:italic;
+    font-size: clamp(18px, 3vw, 32px);
+    color:rgba(200,169,110,0.5);
+    letter-spacing:0.08em;
+    margin-top:8px;
+    display:block;
+  }
+
+  /* Divider ornament */
+  .ornament {
+    display:flex; align-items:center; gap:16px;
+    margin: 40px 0;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+  .ornament-line { flex:1; max-width:100px; height:1px; background:linear-gradient(to right, transparent, var(--border)); }
+  .ornament-line.rev { background:linear-gradient(to left, transparent, var(--border)); }
+  .ornament-diamond { width:5px; height:5px; background:var(--gold); transform:rotate(45deg); opacity:0.6; }
+
+  /* Subheadline */
+  .hero-sub {
+    max-width:500px;
+    font-size:16px; line-height:1.75;
+    color:var(--text); opacity:0.6;
+    font-weight:300;
+    animation: fadeUp 0.7s 0.25s ease both;
+  }
+
+  /* Form */
+  .form-wrap {
+    margin-top:44px; width:100%; max-width:440px;
+    animation: fadeUp 0.7s 0.35s ease both;
+  }
+  .form-row {
+    display:flex;
+    border:1px solid var(--border);
+    border-radius:10px;
+    overflow:hidden;
+    background:rgba(255,255,255,0.025);
+    transition:border-color 0.2s;
+  }
+  .form-row:focus-within { border-color:rgba(200,169,110,0.4); }
+  .form-row input {
+    flex:1; background:transparent; border:none; outline:none;
+    padding:15px 20px;
+    font-family:'Instrument Sans', sans-serif;
+    font-size:14px; color:#fff;
+  }
+  .form-row input::placeholder { color:var(--muted); }
+  .form-row button {
+    background:var(--gold); border:none;
+    padding:15px 22px;
+    font-family:'Instrument Sans', sans-serif;
+    font-size:13px; font-weight:700; color:#060810;
+    cursor:pointer; transition:all 0.2s;
+    letter-spacing:0.04em; white-space:nowrap;
+  }
+  .form-row button:hover { background:var(--gold-light); }
+
+  .form-note {
+    margin-top:14px; font-size:11px;
+    color:var(--muted); letter-spacing:0.06em;
+    text-align:center;
+  }
+  .form-note b { color:rgba(200,169,110,0.6); font-weight:600; }
+
+  /* Success */
+  .success-box {
+    display:none;
+    border:1px solid rgba(200,169,110,0.2);
+    background:rgba(200,169,110,0.06);
+    border-radius:10px; padding:18px 24px;
+    font-size:13px; color:var(--gold);
+    letter-spacing:0.04em; line-height:1.6;
+  }
+
+  /* Counters */
+  .counters {
+    display:flex; gap:56px;
+    margin-top:72px;
+    animation: fadeUp 0.7s 0.45s ease both;
+  }
+  .counter { text-align:center; }
+  .c-num {
+    font-family:'Bebas Neue', sans-serif;
+    font-size:52px; color:#fff; line-height:1;
+    letter-spacing:0.04em;
+  }
+  .c-num em { color:var(--gold); font-style:normal; }
+  .c-label { font-size:9px; letter-spacing:0.2em; color:var(--muted); margin-top:6px; text-transform:uppercase; }
+
+  /* Platforms */
+  .platforms {
+    display:flex; gap:10px; flex-wrap:wrap;
+    justify-content:center; margin-top:48px;
+    animation: fadeUp 0.7s 0.5s ease both;
+  }
+  .plat {
+    border:1px solid var(--border);
+    border-radius:6px; padding:8px 16px;
+    font-size:11px; letter-spacing:0.1em;
+    color:var(--muted); text-transform:uppercase;
+    font-weight:500;
+    transition:all 0.2s;
+  }
+  .plat:hover { border-color:rgba(200,169,110,0.3); color:var(--gold-light); }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(22px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* Ticker */
+  .ticker-wrap {
+    position:relative; z-index:2;
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+    padding:14px 0;
+    overflow:hidden;
+    background:rgba(200,169,110,0.02);
+  }
+  .ticker {
+    display:flex; gap:56px;
+    animation:scroll 22s linear infinite;
+    white-space:nowrap;
+  }
+  .t-item {
+    font-size:10px; letter-spacing:0.2em;
+    color:var(--muted); text-transform:uppercase;
+    flex-shrink:0; font-weight:500;
+  }
+  .t-item em { color:var(--gold); font-style:normal; margin-right:10px; }
+  @keyframes scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* Features */
+  .features {
+    position:relative; z-index:2;
+    padding:120px 56px;
+    max-width:1100px; margin:0 auto;
+  }
+  .sec-eyebrow {
+    font-size:9px; letter-spacing:0.25em; color:var(--gold);
+    text-transform:uppercase; font-weight:600; margin-bottom:20px;
+  }
+  .sec-title {
+    font-family:'Bebas Neue', sans-serif;
+    font-size:clamp(44px, 7vw, 80px);
+    line-height:0.95; color:#fff; letter-spacing:0.05em;
+    margin-bottom:72px;
+  }
+  .sec-title em { color:var(--gold); font-style:normal; }
+
+  .feat-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--border);
+    border:1px solid var(--border);
+  }
+  .feat {
+    background:var(--bg);
+    padding:40px 36px;
+    position:relative; overflow:hidden;
+    transition:background 0.25s;
+  }
+  .feat:hover { background:#0C0F18; }
+  .feat::after {
+    content:''; position:absolute;
+    bottom:0; left:0; right:0; height:1px;
+    background:linear-gradient(90deg,var(--gold),transparent);
+    opacity:0; transition:opacity 0.3s;
+  }
+  .feat:hover::after { opacity:1; }
+  .feat-num {
+    font-family:'Bebas Neue', sans-serif;
+    font-size:13px; letter-spacing:0.2em;
+    color:rgba(200,169,110,0.2); margin-bottom:28px;
+  }
+  .feat-icon { font-size:28px; margin-bottom:18px; display:block; }
+  .feat-title { font-size:17px; font-weight:700; color:#fff; margin-bottom:12px; }
+  .feat-desc { font-size:13px; line-height:1.7; color:var(--muted); font-weight:300; }
+
+  /* Manifesto */
+  .manifesto {
+    position:relative; z-index:2;
+    border-top:1px solid var(--border);
+    padding:100px 56px;
+    max-width:700px; margin:0 auto;
+    text-align:center;
+  }
+  .manifesto p {
+    font-family:'Instrument Serif', serif;
+    font-size:clamp(22px,3.5vw,34px);
+    line-height:1.5; color:rgba(255,255,255,0.55);
+    font-style:italic;
+  }
+  .manifesto p em { color:var(--gold-light); font-style:normal; }
+
+  /* Pricing */
+  .pricing {
+    position:relative; z-index:2;
+    padding:80px 24px 120px;
+    text-align:center;
+  }
+  .price-card {
+    max-width:400px; margin:48px auto 0;
+    border:1px solid var(--border);
+    border-radius:20px; padding:48px 40px;
+    background:var(--surface);
+    position:relative; overflow:hidden;
+  }
+  .price-card::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:1px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  }
+  .price-badge {
+    display:inline-block;
+    font-size:9px; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--gold); background:var(--gold-dim);
+    border:1px solid var(--border); border-radius:100px;
+    padding:6px 16px; margin-bottom:28px; font-weight:600;
+  }
+  .price-amt {
+    font-family:'Bebas Neue', sans-serif;
+    font-size:88px; color:#fff; line-height:1;
+    letter-spacing:0.04em;
+  }
+  .price-amt sup { font-size:40px; vertical-align:super; }
+  .price-amt sub { font-size:20px; color:var(--muted); vertical-align:baseline; letter-spacing:0; }
+  .price-list {
+    list-style:none; margin:32px 0;
+    display:flex; flex-direction:column; gap:13px;
+    text-align:left;
+  }
+  .price-list li {
+    display:flex; align-items:center; gap:12px;
+    font-size:13.5px; color:var(--text);
+  }
+  .price-list li::before { content:'—'; color:var(--gold); font-weight:700; flex-shrink:0; }
+  .price-cta {
+    display:block;
+    background:var(--gold); color:#060810;
+    font-weight:700; font-size:14px;
+    padding:16px; border-radius:10px;
+    text-decoration:none; letter-spacing:0.04em;
+    transition:all 0.2s;
+  }
+  .price-cta:hover { background:var(--gold-light); transform:translateY(-2px); box-shadow:0 16px 48px rgba(0,255,178,0.2); }
+
+  /* Footer */
+  footer {
+    position:relative; z-index:2;
+    border-top:1px solid var(--border);
+    padding:36px 56px;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:16px;
+  }
+  .foot-logo { font-family:'Bebas Neue', sans-serif; font-size:18px; color:var(--gold); letter-spacing:0.2em; }
+  .foot-links { display:flex; gap:24px; list-style:none; }
+  .foot-links a { font-size:11px; color:var(--muted); text-decoration:none; letter-spacing:0.08em; transition:color 0.2s; }
+  .foot-links a:hover { color:var(--gold); }
+  .foot-copy { font-size:10px; color:var(--muted); letter-spacing:0.1em; }
+
+  @media(max-width:768px){
+    nav { padding:20px 24px; }
+    .feat-grid { grid-template-columns:1fr; }
+    .features { padding:80px 24px; }
+    .counters { gap:32px; }
+    footer { padding:32px 24px; flex-direction:column; text-align:center; }
+    .manifesto { padding:72px 24px; }
+  }
+  @media(max-width:480px){
+    .counters { gap:24px; }
+    .c-num { font-size:40px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<div class="bg-glow"></div>
+
+<!-- Nav -->
+<nav>
+  <a class="logo" href="#">ALPHAA<span>.OS</span></a>
+  <div class="nav-right">
+    <div class="nav-tag">Coming 2026</div>
+    <div class="nav-dot"></div>
+    <a class="nav-cta" href="#features">How It Works</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="h-line" style="top:0"></div>
+
+  <div class="year-badge">
+    <span>Waitlist Open</span>
+    <div class="year-sep"></div>
+    <span>Launching 2026</span>
+  </div>
+
+  <div class="title-wrap">
+    <h1>
+      <span class="a-gold">AL</span>PHAA<br/>
+      <span class="ghost">.OS</span>
+    </h1>
+    <span class="title-serif">the AI that never forgets</span>
+  </div>
+
+  <div class="ornament">
+    <div class="ornament-line rev"></div>
+    <div class="ornament-diamond"></div>
+    <div class="ornament-line"></div>
+  </div>
+
+  <p class="hero-sub">
+    One voice. Every device. Infinite memory.
+    An AI operating system that lives on your phone and PC —
+    and actually knows who you are.
+  </p>
+
+  <!-- Loops.so Form -->
+  <div class="form-wrap" id="waitlist">
+    <div class="form-row" id="formRow">
+      <input type="email" id="emailInput" placeholder="your@email.com" autocomplete="email"/>
+      <button onclick="submitForm()">Reserve My Spot →</button>
+    </div>
+    <div class="success-box" id="successBox">
+      ✦ &nbsp;You're on the list.<br/>
+      We'll reach out before anyone else when we open doors in 2026.
+    </div>
+    <div class="form-note" id="formNote">
+      <b id="countDisplay">1,247</b> people already reserved · No spam, ever · Free to join
+    </div>
+  </div>
+
+  <!-- Counters -->
+  <div class="counters">
+    <div class="counter">
+      <div class="c-num"><em>$</em>25</div>
+      <div class="c-label">Per Month</div>
+    </div>
+    <div class="counter">
+      <div class="c-num">5<em>+</em></div>
+      <div class="c-label">Platforms</div>
+    </div>
+    <div class="counter">
+      <div class="c-num"><em>∞</em></div>
+      <div class="c-label">Memory</div>
+    </div>
+    <div class="counter">
+      <div class="c-num">0<em>s</em></div>
+      <div class="c-label">Context Loss</div>
+    </div>
+  </div>
+
+  <!-- Platforms -->
+  <div class="platforms">
+    <div class="plat">Android</div>
+    <div class="plat">iPhone</div>
+    <div class="plat">Windows</div>
+    <div class="plat">macOS</div>
+    <div class="plat">Linux</div>
+    <div class="plat">Browser</div>
+  </div>
+
+  <div class="h-line" style="bottom:0"></div>
+</section>
+
+<!-- Ticker -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="t-item"><em>✦</em>Voice Control</div>
+    <div class="t-item"><em>✦</em>Infinite Memory</div>
+    <div class="t-item"><em>✦</em>Skills Marketplace</div>
+    <div class="t-item"><em>✦</em>Phone · PC · Mac</div>
+    <div class="t-item"><em>✦</em>Private Cloud</div>
+    <div class="t-item"><em>✦</em>Launching 2026</div>
+    <div class="t-item"><em>✦</em>$25 / Month</div>
+    <div class="t-item"><em>✦</em>Voice Control</div>
+    <div class="t-item"><em>✦</em>Infinite Memory</div>
+    <div class="t-item"><em>✦</em>Skills Marketplace</div>
+    <div class="t-item"><em>✦</em>Phone · PC · Mac</div>
+    <div class="t-item"><em>✦</em>Private Cloud</div>
+    <div class="t-item"><em>✦</em>Launching 2026</div>
+    <div class="t-item"><em>✦</em>$25 / Month</div>
+  </div>
+</div>
+
+<!-- Features -->
+<section class="features" id="features">
+  <div class="sec-eyebrow">// What Alphaa.OS does</div>
+  <div class="sec-title">ONE AI.<br/><em>EVERYTHING.</em></div>
+
+  <div class="feat-grid">
+    <div class="feat">
+      <div class="feat-num">01</div>
+      <span class="feat-icon">🎙️</span>
+      <div class="feat-title">Voice That Actually Works</div>
+      <div class="feat-desc">Say it, it happens. Call someone, set a reminder, open an app, search the web — all hands-free, on any device.</div>
+    </div>
+    <div class="feat">
+      <div class="feat-num">02</div>
+      <span class="feat-icon">🧠</span>
+      <div class="feat-title">Infinite Memory</div>
+      <div class="feat-desc">Alphaa.OS remembers your preferences, your people, your decisions — forever. Never repeat yourself again.</div>
+    </div>
+    <div class="feat">
+      <div class="feat-num">03</div>
+      <span class="feat-icon">📦</span>
+      <div class="feat-title">Skills Marketplace</div>
+      <div class="feat-desc">A growing library of skills built by developers worldwide. Install, activate, and your AI gets smarter instantly.</div>
+    </div>
+    <div class="feat">
+      <div class="feat-num">04</div>
+      <span class="feat-icon">💻</span>
+      <div class="feat-title">Every Device, One Mind</div>
+      <div class="feat-desc">Phone, PC, Mac — one subscription, one AI, one continuous memory. Switch devices, lose nothing.</div>
+    </div>
+    <div class="feat">
+      <div class="feat-num">05</div>
+      <span class="feat-icon">🔒</span>
+      <div class="feat-title">Your Data, Your Rules</div>
+      <div class="feat-desc">Everything runs on our private cloud. Not Big Tech. Not sold. Not analysed. Export it anytime. Delete anytime.</div>
+    </div>
+    <div class="feat">
+      <div class="feat-num">06</div>
+      <span class="feat-icon">⚡</span>
+      <div class="feat-title">Always Getting Smarter</div>
+      <div class="feat-desc">The more you use it, the better it knows you. Your habits, your style, your world — learned quietly over time.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Manifesto -->
+<div class="manifesto">
+  <p>
+    Your AI shouldn't need an introduction every morning.<br/>
+    It should <em>already know</em> who you are,<br/>
+    what matters to you, and what you need next.
+  </p>
+</div>
+
+<!-- Pricing -->
+<section class="pricing">
+  <div class="sec-eyebrow">// Simple Pricing</div>
+  <div class="sec-title">ONE PLAN.<br/><em>ALL IN.</em></div>
+  <div class="price-card">
+    <div class="price-badge">Early Access · 2026</div>
+    <div class="price-amt"><sup>$</sup>25<sub>/mo</sub></div>
+    <ul class="price-list">
+      <li>Voice AI on Android & iPhone</li>
+      <li>Voice AI on Windows, Mac & Linux</li>
+      <li>Unlimited voice commands, every day</li>
+      <li>Infinite memory — nothing forgotten</li>
+      <li>Full skills marketplace access</li>
+      <li>3 premium skill credits per month</li>
+      <li>Private cloud — your data stays yours</li>
+      <li>Cancel any time, no questions asked</li>
+    </ul>
+    <a href="#waitlist" class="price-cta">Join the Waitlist — Free →</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="foot-logo">ALPHAA.OS</div>
+  <ul class="foot-links">
+    <li><a href="#">Privacy</a></li>
+    <li><a h
